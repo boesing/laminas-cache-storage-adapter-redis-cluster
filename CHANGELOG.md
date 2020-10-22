@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.2.0 - 2019-08-12
+## 1.0.0 - TBD
 
 ### Added
 
-- Support for ext-redis 4.3.0 and upwards.
+- Nothing.
 
 ### Changed
 
@@ -23,7 +23,3 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - Nothing.
-
-## 0.1.0 - 2019-08-12
-
-Initial release to provide `RedisCluster` support to projects using zend-cache.

@@ -73,7 +73,10 @@ final class RedisClusterResourceManagerTest extends TestCase
         $this->assertEquals('1.0.0', $version);
     }
 
-    public function serializationSupportOptionsProvider()
+    /**
+     * @psalm-return array<string,array{0:RedisClusterOptions}>
+     */
+    public function serializationSupportOptionsProvider(): array
     {
         return [
             'php-serialize'      => [

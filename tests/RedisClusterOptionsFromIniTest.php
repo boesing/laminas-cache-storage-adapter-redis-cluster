@@ -48,7 +48,7 @@ final class RedisClusterOptionsFromIniTest extends TestCase
         $options->seeds('bar');
     }
 
-    public function seedsByNodenameProvider()
+    public function seedsByNodenameProvider(): array
     {
         return [
             'simple'         => [

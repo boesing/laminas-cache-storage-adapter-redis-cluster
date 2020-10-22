@@ -15,7 +15,9 @@ use RedisCluster as RedisClusterFromExtension;
 use RedisClusterException;
 use RedisException;
 use stdClass;
+use Traversable;
 
+use function assert;
 use function count;
 use function version_compare;
 
@@ -31,7 +33,8 @@ final class RedisCluster extends AbstractAdapter implements
     private $namespacePrefix;
 
     /**
-     * @inheritDoc
+     * @param null|array|Traversable|RedisClusterOptions $options
+     * @psalm-param array<string,mixed>|RedisClusterOptions|Traversable<string,mixed> $options
      */
     public function __construct($options = null)
     {
@@ -48,7 +51,9 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param array|Traversable|RedisClusterOptions $options
+     * @psalm-param RedisClusterOptions|array<string,mixed>|Traversable<string,mixed> $options
+     * @return $this
      */
     public function setOptions($options)
     {
@@ -58,7 +63,8 @@ final class RedisCluster extends AbstractAdapter implements
 
         $options->setAdapter($this);
 
-        return parent::setOptions($options);
+        parent::setOptions($options);
+        return $this;
     }
 
     /**
@@ -116,9 +122,9 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param string $namespace
      */
-    public function clearByNamespace($namespace)
+    public function clearByNamespace($namespace): bool
     {
         $namespace = (string) $namespace;
         if ($namespace === '') {
@@ -129,9 +135,9 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param string $prefix
      */
-    public function clearByPrefix($prefix)
+    public function clearByPrefix($prefix): bool
     {
         $prefix = (string) $prefix;
         if ($prefix === '') {
@@ -144,7 +150,10 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param string     $normalizedKey
+     * @param bool|null  $success
+     * @param mixed|null $casToken
+     * @return mixed|null
      */
     protected function internalGetItem(&$normalizedKey, &$success = null, &$casToken = null)
     {
@@ -169,9 +178,10 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @psalm-param list<string> $normalizedKeys
+     * @psalm-return array<string,mixed>
      */
-    protected function internalGetItems(array &$normalizedKeys)
+    protected function internalGetItems(array &$normalizedKeys): array
     {
         $namespacedKeys = [];
         foreach ($normalizedKeys as $normalizedKey) {
@@ -216,9 +226,10 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param string $normalizedKey
+     * @param mixed  $value
      */
-    protected function internalSetItem(&$normalizedKey, &$value)
+    protected function internalSetItem(&$normalizedKey, &$value): bool
     {
         $redis   = $this->getRedisResource();
         $options = $this->getOptions();
@@ -237,9 +248,9 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param string $normalizedKey
      */
-    protected function internalRemoveItem(&$normalizedKey)
+    protected function internalRemoveItem(&$normalizedKey): bool
     {
         $redis = $this->getRedisResource();
 
@@ -250,7 +261,11 @@ final class RedisCluster extends AbstractAdapter implements
         }
     }
 
-    protected function internalRemoveItems(array &$normalizedKeys)
+    /**
+     * @psalm-param list<string> $normalizedKeys
+     * @psalm-return list<string>
+     */
+    protected function internalRemoveItems(array &$normalizedKeys): array
     {
         $namespacedKeys = [];
         foreach ($normalizedKeys as $normalizedKey) {
@@ -278,9 +293,9 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @param string $normalizedKey
      */
-    protected function internalHasItem(&$normalizedKey)
+    protected function internalHasItem(&$normalizedKey): bool
     {
         $redis = $this->getRedisResource();
 
@@ -292,9 +307,10 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @inheritDoc
+     * @psalm-param array<string,mixed> $normalizedKeyValuePairs
+     * @psalm-return list<string>
      */
-    protected function internalSetItems(array &$normalizedKeyValuePairs)
+    protected function internalSetItems(array &$normalizedKeyValuePairs): array
     {
         $redis = $this->getRedisResource();
         $ttl   = (int) $this->getOptions()->getTtl();
@@ -369,7 +385,7 @@ final class RedisCluster extends AbstractAdapter implements
     }
 
     /**
-     * @return array<string,mixed>
+     * @psalm-return array<string,mixed>
      */
     private function supportedDatatypes(bool $serializer): array
     {
@@ -405,7 +421,7 @@ final class RedisCluster extends AbstractAdapter implements
         return $resourceManager->getLibOption($option);
     }
 
-    private function searchAndDelete(string $prefix, string $namespace)
+    private function searchAndDelete(string $prefix, string $namespace): bool
     {
         $redis   = $this->getRedisResource();
         $options = $this->getOptions();

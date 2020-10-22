@@ -6,6 +6,7 @@ namespace Boesing\Laminas\Cache\Storage\Adapter\RedisCluster;
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\Exception\InvalidConfigurationException;
 use Laminas\Cache\Storage\Adapter\AdapterOptions;
+use Traversable;
 use Webmozart\Assert\Assert;
 
 use function array_keys;
@@ -27,20 +28,21 @@ final class RedisClusterOptions extends AdapterOptions
     /** @var bool */
     protected $persistent = false;
 
-    /** @var array<int,string> */
+    /** @psalm-var array<int,string> */
     protected $seeds = [];
 
     /** @var string */
     protected $version = '';
 
-    /** @var array<int,mixed> */
+    /** @psalm-var array<int,mixed> */
     protected $libOptions = [];
 
     /** @var RedisClusterResourceManager|null */
     private $resourceManager;
 
     /**
-     * @inheritDoc
+     * @param array|Traversable|null $options
+     * @psalm-param array<string,mixed>|Traversable<string,mixed> $options
      */
     public function __construct($options = null)
     {
@@ -150,7 +152,7 @@ final class RedisClusterOptions extends AdapterOptions
     }
 
     /**
-     * @param array<int,mixed> $options
+     * @psalm-param array<int,mixed> $options
      */
     public function setLibOptions(array $options): void
     {
@@ -159,7 +161,7 @@ final class RedisClusterOptions extends AdapterOptions
     }
 
     /**
-     * @return array<int,int>
+     * @psalm-return array<int,int>
      */
     public function libOptions(): array
     {

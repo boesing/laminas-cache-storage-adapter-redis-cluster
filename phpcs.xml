@@ -18,5 +18,7 @@
     <file>integration</file>
 
     <!-- Include all rules from the Laminas Coding Standard -->
-    <rule ref="LaminasCodingStandard"/>
+    <rule ref="LaminasCodingStandard">
+        <exclude name="WebimpressCodingStandard.Functions.ReturnType.ReturnNewInstanceOnly"/>
+    </rule>
 </ruleset>

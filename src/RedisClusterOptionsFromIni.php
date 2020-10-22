@@ -12,13 +12,13 @@ use function parse_str;
 
 final class RedisClusterOptionsFromIni
 {
-    /** @var array<string,array<int,string>> */
+    /** @psalm-var array<string,array<int,string>> */
     private $seedsByNodename;
 
-    /** @var array<string,float> */
+    /** @psalm-var array<string,float> */
     private $timeoutByNodename;
 
-    /** @var array<string,float> */
+    /** @psalm-var array<string,float> */
     private $readTimeoutByNodename;
 
     public function __construct()

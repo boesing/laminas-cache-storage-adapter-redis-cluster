@@ -19,7 +19,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
     /** @var RedisClusterOptions */
     private $options;
 
-    /** @var array<int,int> */
+    /** @psalm-var array<int,int> */
     private $libraryOptions;
 
     public function __construct(RedisClusterOptions $options)
@@ -35,10 +35,10 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
         }
 
         $resource = $this->getResource();
-        /**
-         * @var array<string,mixed> $info
-         */
         try {
+            /**
+             * @psalm-var array<string,mixed> $info
+             */
             $info = $resource->info($this->options->nodename() ?: $this->options->seeds());
         } catch (RedisClusterException $exception) {
             throw RuntimeException::fromClusterException($exception, $resource);

@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This is needed for cache/integration-tests as they depend on old phpunit versions.
  */
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 

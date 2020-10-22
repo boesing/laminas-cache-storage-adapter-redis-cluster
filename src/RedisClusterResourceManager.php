@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Boesing\Laminas\Cache\Storage\Adapter\RedisCluster;
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\Exception\RuntimeException;
-use RedisCluster as RedisClusterFromExtension;
-use RedisClusterException;
-use ReflectionClass;
 use Laminas\Cache\Storage\Adapter\AbstractAdapter;
 use Laminas\Cache\Storage\Plugin\PluginInterface;
 use Laminas\Cache\Storage\Plugin\Serializer;
+use RedisCluster as RedisClusterFromExtension;
+use RedisClusterException;
+use ReflectionClass;
 
 use function strpos;
 
@@ -27,7 +27,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
         $this->options = $options;
     }
 
-    public function getVersion() : string
+    public function getVersion(): string
     {
         $versionFromOptions = $this->options->redisVersion();
         if ($versionFromOptions) {
@@ -53,7 +53,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
     /**
      * @inheritDoc
      */
-    public function getResource() : RedisClusterFromExtension
+    public function getResource(): RedisClusterFromExtension
     {
         try {
             $resource = $this->createRedisResource($this->options);
@@ -73,7 +73,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
         return $resource;
     }
 
-    private function createRedisResource(RedisClusterOptions $options) : RedisClusterFromExtension
+    private function createRedisResource(RedisClusterOptions $options): RedisClusterFromExtension
     {
         if ($options->hasNodename()) {
             return $this->createRedisResourceFromNodename(
@@ -98,7 +98,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
         float $fallbackTimeout,
         float $fallbackReadTimeout,
         bool $persistent
-    ) : RedisClusterFromExtension {
+    ): RedisClusterFromExtension {
         $options     = new RedisClusterOptionsFromIni();
         $seeds       = $options->seeds($nodename);
         $timeout     = $options->timeout($nodename, $fallbackTimeout);
@@ -110,7 +110,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
     private function applyLibraryOptions(
         RedisClusterFromExtension $resource,
         array $options
-    ) : RedisClusterFromExtension {
+    ): RedisClusterFromExtension {
         foreach ($options as $option => $value) {
             $resource->setOption($option, (string) $value);
         }
@@ -118,7 +118,7 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
         return $resource;
     }
 
-    private function mergeLibraryOptionsFromCluster(array $options, RedisClusterFromExtension $resource) : array
+    private function mergeLibraryOptionsFromCluster(array $options, RedisClusterFromExtension $resource): array
     {
         $reflection = new ReflectionClass(RedisClusterFromExtension::class);
 
@@ -133,12 +133,12 @@ final class RedisClusterResourceManager implements RedisClusterResourceManagerIn
         return $options;
     }
 
-    public function getLibOption(int $option) : int
+    public function getLibOption(int $option): int
     {
         return $this->libraryOptions[$option] ?? $this->getResource()->getOption($option);
     }
 
-    public function hasSerializationSupport(AbstractAdapter $adapter) : bool
+    public function hasSerializationSupport(AbstractAdapter $adapter): bool
     {
         $options        = $this->options;
         $libraryOptions = $options->libOptions();

@@ -6,10 +6,10 @@ namespace Boesing\Laminas\Cache\Storage\Adapter\RedisClusterIntegration;
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\RedisCluster;
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\RedisClusterOptions;
-use PHPUnit\Framework\TestCase;
-use RedisCluster as RedisClusterFromExtension;
 use Laminas\Cache\Storage\Adapter\AbstractAdapter;
 use Laminas\Cache\Storage\Plugin\Serializer;
+use PHPUnit\Framework\TestCase;
+use RedisCluster as RedisClusterFromExtension;
 
 final class RedisClusterTest extends TestCase
 {
@@ -66,7 +66,7 @@ final class RedisClusterTest extends TestCase
         ], $dataTypes);
     }
 
-    private function removeSerializer(AbstractAdapter $storage) : void
+    private function removeSerializer(AbstractAdapter $storage): void
     {
         foreach ($storage->getPluginRegistry() as $plugin) {
             if (! $plugin instanceof Serializer) {

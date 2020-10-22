@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Boesing\Laminas\Cache\Storage\Adapter\RedisCluster;
 
-use Redis;
-use RedisCluster as RedisClusterFromExtension;
-use RedisClusterException;
-use RedisException;
-use stdClass;
 use Laminas\Cache\Storage\Adapter\AbstractAdapter;
 use Laminas\Cache\Storage\Capabilities;
 use Laminas\Cache\Storage\ClearByNamespaceInterface;
 use Laminas\Cache\Storage\ClearByPrefixInterface;
 use Laminas\Cache\Storage\FlushableInterface;
+use Laminas\EventManager\EventManagerInterface;
+use Redis;
+use RedisCluster as RedisClusterFromExtension;
+use RedisClusterException;
+use RedisException;
+use stdClass;
 
 use function count;
 use function version_compare;
@@ -35,7 +36,10 @@ final class RedisCluster extends AbstractAdapter implements
     public function __construct($options = null)
     {
         parent::__construct($options);
-        $this->getEventManager()->attach('option', function () : void {
+        $eventManager = $this->getEventManager();
+        assert($eventManager instanceof EventManagerInterface);
+
+        $eventManager->attach('option', function (): void {
             $this->resource         = null;
             $this->capabilities     = null;
             $this->capabilityMarker = null;
@@ -63,7 +67,7 @@ final class RedisCluster extends AbstractAdapter implements
      *
      * @inheritDoc
      */
-    public function flush() : bool
+    public function flush(): bool
     {
         $resource                     = $this->getRedisResource();
         $anyMasterSuccessfullyFlushed = false;
@@ -87,7 +91,7 @@ final class RedisCluster extends AbstractAdapter implements
         return $anyMasterSuccessfullyFlushed;
     }
 
-    private function getRedisResource() : RedisClusterFromExtension
+    private function getRedisResource(): RedisClusterFromExtension
     {
         if ($this->resource instanceof RedisClusterFromExtension) {
             return $this->resource;
@@ -103,7 +107,7 @@ final class RedisCluster extends AbstractAdapter implements
         }
     }
 
-    public function getOptions() : RedisClusterOptions
+    public function getOptions(): RedisClusterOptions
     {
         /** @var RedisClusterOptions $options */
         $options = parent::getOptions();
@@ -195,7 +199,7 @@ final class RedisCluster extends AbstractAdapter implements
         return $result;
     }
 
-    private function key(string $key) : string
+    private function key(string $key): string
     {
         if ($this->namespacePrefix !== null) {
             return $this->namespacePrefix . $key;
@@ -330,7 +334,7 @@ final class RedisCluster extends AbstractAdapter implements
     /**
      * @inheritDoc
      */
-    protected function internalGetCapabilities() : Capabilities
+    protected function internalGetCapabilities(): Capabilities
     {
         if ($this->capabilities !== null) {
             return $this->capabilities;
@@ -367,7 +371,7 @@ final class RedisCluster extends AbstractAdapter implements
     /**
      * @return array<string,mixed>
      */
-    private function supportedDatatypes(bool $serializer) : array
+    private function supportedDatatypes(bool $serializer): array
     {
         if ($serializer) {
             return [
@@ -394,7 +398,7 @@ final class RedisCluster extends AbstractAdapter implements
         ];
     }
 
-    private function getLibOption(int $option) : int
+    private function getLibOption(int $option): int
     {
         $options         = $this->getOptions();
         $resourceManager = $options->getResourceManager();
@@ -419,15 +423,14 @@ final class RedisCluster extends AbstractAdapter implements
     private function clusterException(
         RedisClusterException $exception,
         RedisClusterFromExtension $redis
-    ) : Exception\RuntimeException {
+    ): Exception\RuntimeException {
         return Exception\RuntimeException::fromClusterException($exception, $redis);
     }
 
-    private function internalSerializerUsed(RedisClusterFromExtension $redis, string $key) : bool
+    private function internalSerializerUsed(RedisClusterFromExtension $redis, string $key): bool
     {
-        if ($this->getLibOption(RedisClusterFromExtension::OPT_SERIALIZER) ===
-            RedisClusterFromExtension::SERIALIZER_NONE
-        ) {
+        $serializer = $this->getLibOption(RedisClusterFromExtension::OPT_SERIALIZER);
+        if ($serializer === RedisClusterFromExtension::SERIALIZER_NONE) {
             return false;
         }
 

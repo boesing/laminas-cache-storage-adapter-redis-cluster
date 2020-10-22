@@ -6,11 +6,11 @@ namespace Boesing\Laminas\Cache\Storage\Adapter\RedisClusterTest;
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\RedisClusterOptions;
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\RedisClusterResourceManager;
+use Laminas\Cache\Storage\Adapter\AbstractAdapter;
+use Laminas\Cache\Storage\Plugin\Serializer;
 use PHPUnit\Framework\TestCase;
 use RedisCluster;
 use SplObjectStorage;
-use Laminas\Cache\Storage\Adapter\AbstractAdapter;
-use Laminas\Cache\Storage\Plugin\Serializer;
 
 use function uniqid;
 

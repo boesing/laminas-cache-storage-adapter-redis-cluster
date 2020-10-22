@@ -60,7 +60,7 @@ final class RedisClusterOptionsFromIni
     /**
      * @return string[]
      */
-    public function seeds(string $nodename) : array
+    public function seeds(string $nodename): array
     {
         $seeds = $this->seedsByNodename[$nodename] ?? [];
         if (! $seeds) {
@@ -70,12 +70,12 @@ final class RedisClusterOptionsFromIni
         return $seeds;
     }
 
-    public function timeout(string $nodename, float $fallback) : float
+    public function timeout(string $nodename, float $fallback): float
     {
         return $this->timeoutByNodename[$nodename] ?? $fallback;
     }
 
-    public function readTimeout(string $nodename, float $fallback) : float
+    public function readTimeout(string $nodename, float $fallback): float
     {
         return $this->readTimeoutByNodename[$nodename] ?? $fallback;
     }

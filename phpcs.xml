@@ -17,6 +17,6 @@
     <file>tests</file>
     <file>integration</file>
 
-    <!-- Include all rules from the Zend Coding Standard -->
-    <rule ref="ZendCodingStandard"/>
+    <!-- Include all rules from the Laminas Coding Standard -->
+    <rule ref="LaminasCodingStandard"/>
 </ruleset>

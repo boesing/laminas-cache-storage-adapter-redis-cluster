@@ -6,9 +6,9 @@ namespace Boesing\Laminas\Cache\Storage\Adapter\RedisClusterIntegration\CacheIte
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisClusterIntegration\RedisClusterStorageCreationTrait;
 use Cache\IntegrationTests\CachePoolTest;
+use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
 use Psr\Cache\CacheItemPoolInterface;
 use RedisCluster;
-use Laminas\Cache\Psr\CacheItemPool\CacheItemPoolDecorator;
 
 use function get_class;
 use function sprintf;

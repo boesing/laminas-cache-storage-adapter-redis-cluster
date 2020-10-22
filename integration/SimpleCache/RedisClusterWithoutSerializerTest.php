@@ -6,9 +6,9 @@ namespace Boesing\Laminas\Cache\Storage\Adapter\RedisClusterIntegration\SimpleCa
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisClusterIntegration\RedisClusterStorageCreationTrait;
 use Cache\IntegrationTests\SimpleCacheTest;
+use Laminas\Cache\Psr\SimpleCache\SimpleCacheDecorator;
 use Psr\SimpleCache\CacheInterface;
 use RedisCluster;
-use Laminas\Cache\Psr\SimpleCache\SimpleCacheDecorator;
 
 final class RedisClusterWithoutSerializerTest extends SimpleCacheTest
 {

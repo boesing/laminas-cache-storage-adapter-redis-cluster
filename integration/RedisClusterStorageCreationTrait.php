@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Boesing\Laminas\Cache\Storage\Adapter\RedisClusterIntegration;
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\RedisCluster;
+use Laminas\Cache\Storage\Plugin\Serializer;
 use RedisCluster as RedisClusterFromExtension;
 use RuntimeException;
-use Laminas\Cache\Storage\Plugin\Serializer;
 
 use function getenv;
 use function posix_getpid;
@@ -18,7 +18,7 @@ trait RedisClusterStorageCreationTrait
     /** @var RedisCluster */
     private $storage;
 
-    private function createRedisClusterStorage(int $serializerOption, bool $serializerPlugin) : RedisCluster
+    private function createRedisClusterStorage(int $serializerOption, bool $serializerPlugin): RedisCluster
     {
         if ($this->storage) {
             return $this->storage;

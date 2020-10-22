@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Boesing\Laminas\Cache\Storage\Adapter\RedisCluster;
 
 use Boesing\Laminas\Cache\Storage\Adapter\RedisCluster\Exception\InvalidConfigurationException;
-use Webmozart\Assert\Assert;
 use Laminas\Cache\Storage\Adapter\AdapterOptions;
+use Webmozart\Assert\Assert;
 
 use function array_keys;
 
@@ -54,29 +54,29 @@ final class RedisClusterOptions extends AdapterOptions
         }
     }
 
-    public function setTimeout(float $timeout) : void
+    public function setTimeout(float $timeout): void
     {
         $this->timeout = $timeout;
         $this->triggerOptionEvent('timeout', $timeout);
     }
 
-    public function setReadTimeout(float $readTimeout) : void
+    public function setReadTimeout(float $readTimeout): void
     {
         $this->readTimeout = $readTimeout;
         $this->triggerOptionEvent('read_timeout', $readTimeout);
     }
 
-    public function setPersistent(bool $persistent) : void
+    public function setPersistent(bool $persistent): void
     {
         $this->persistent = $persistent;
     }
 
-    public function getNamespaceSeparator() : string
+    public function getNamespaceSeparator(): string
     {
         return $this->namespaceSeparator;
     }
 
-    public function setNamespaceSeparator(string $namespaceSeparator) : void
+    public function setNamespaceSeparator(string $namespaceSeparator): void
     {
         if ($this->namespaceSeparator === $namespaceSeparator) {
             return;
@@ -86,33 +86,33 @@ final class RedisClusterOptions extends AdapterOptions
         $this->namespaceSeparator = $namespaceSeparator;
     }
 
-    public function hasNodename() : bool
+    public function hasNodename(): bool
     {
         return $this->nodename !== '';
     }
 
-    public function nodename() : string
+    public function nodename(): string
     {
         return $this->nodename;
     }
 
-    public function setNodename(string $nodename) : void
+    public function setNodename(string $nodename): void
     {
         $this->nodename = $nodename;
         $this->triggerOptionEvent('nodename', $nodename);
     }
 
-    public function timeout() : float
+    public function timeout(): float
     {
         return $this->timeout;
     }
 
-    public function readTimeout() : float
+    public function readTimeout(): float
     {
         return $this->readTimeout;
     }
 
-    public function persistent() : bool
+    public function persistent(): bool
     {
         return $this->persistent;
     }
@@ -120,7 +120,7 @@ final class RedisClusterOptions extends AdapterOptions
     /**
      * @return string[]
      */
-    public function seeds() : array
+    public function seeds(): array
     {
         return $this->seeds;
     }
@@ -128,7 +128,7 @@ final class RedisClusterOptions extends AdapterOptions
     /**
      * @param string[] $seeds
      */
-    public function setSeeds(array $seeds) : void
+    public function setSeeds(array $seeds): void
     {
         Assert::notEmpty($seeds);
         Assert::allString($seeds);
@@ -137,14 +137,14 @@ final class RedisClusterOptions extends AdapterOptions
         $this->triggerOptionEvent('seeds', $seeds);
     }
 
-    public function setRedisVersion(string $version) : void
+    public function setRedisVersion(string $version): void
     {
         Assert::stringNotEmpty($version);
         Assert::regex($version, '#^\d+\.\d+#');
         $this->version = $version;
     }
 
-    public function redisVersion() : string
+    public function redisVersion(): string
     {
         return $this->version;
     }
@@ -152,7 +152,7 @@ final class RedisClusterOptions extends AdapterOptions
     /**
      * @param array<int,mixed> $options
      */
-    public function setLibOptions(array $options) : void
+    public function setLibOptions(array $options): void
     {
         Assert::allInteger(array_keys($options));
         $this->libOptions = $options;
@@ -161,17 +161,17 @@ final class RedisClusterOptions extends AdapterOptions
     /**
      * @return array<int,int>
      */
-    public function libOptions() : array
+    public function libOptions(): array
     {
         return $this->libOptions;
     }
 
-    public function setResourceManager(RedisClusterResourceManagerInterface $resourceManager) : void
+    public function setResourceManager(RedisClusterResourceManagerInterface $resourceManager): void
     {
         $this->resourceManager = $resourceManager;
     }
 
-    public function getResourceManager() : RedisClusterResourceManagerInterface
+    public function getResourceManager(): RedisClusterResourceManagerInterface
     {
         if ($this->resourceManager) {
             return $this->resourceManager;
